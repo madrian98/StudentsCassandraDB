@@ -1,0 +1,8 @@
+spring:
+  data:
+    cassandra:
+      port: 9042
+      contact-points: cassandra_seed
+      keyspace-name: db
+      schema-action: create_if_not_exists
+      entity-base-package: com.cassandra.Enterprise.model

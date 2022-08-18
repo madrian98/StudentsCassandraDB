@@ -1,0 +1,53 @@
+version: '2.2'
+services:
+  cassandra_seed:
+    image: cassandra:latest
+    container_name: cassandra_seed
+    ports:
+      - "9042:9042"
+    environment:
+      - "CASSANDRA_BROADCAST_ADDRESS=cassandra_seed"
+      - "CASSANDRA_SEEDS=cassandra_seed"
+      - "HEAP_NEWSIZE=256M"
+      - "MAX_HEAP_SIZE=1024M"
+    healthcheck:
+      test: [ "CMD", "cqlsh", "-u cassandra", "-p cassandra" ,"-e describe keyspaces" ]
+      interval: 15s
+      timeout: 10s
+      retries: 10
+
+  node1:
+    image: cassandra:latest
+    container_name: node1
+    environment:
+      - "HEAP_NEWSIZE=256M"
+      - "MAX_HEAP_SIZE=1024M"
+      - "CASSANDRA_SEEDS=cassandra_seed"
+    healthcheck:
+      test: [ "CMD", "cqlsh", "-u cassandra", "-p cassandra" ,"-e describe keyspaces" ]
+      interval: 15s
+      timeout: 10s
+      retries: 10
+    depends_on:
+      cassandra_seed:
+        condition: service_healthy
+
+
+
+  node2:
+    image: cassandra:latest
+    container_name: node2
+    environment:
+      - "HEAP_NEWSIZE=256M"
+      - "MAX_HEAP_SIZE=1024M"
+      - "CASSANDRA_SEEDS=cassandra_seed"
+    healthcheck:
+      test: [ "CMD", "cqlsh", "-u cassandra", "-p cassandra" ,"-e describe keyspaces" ]
+      interval: 15s
+      timeout: 10s
+      retries: 10
+    depends_on:
+      cassandra_seed:
+        condition: service_healthy
+      node1:
+        condition: service_healthy
