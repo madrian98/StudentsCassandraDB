@@ -6,4 +6,4 @@ REST API created with JAVA 8. Random data generated with usage of https://www.mo
 Additionally Python script has been written in order to fill up with data(multiple POST operations).<br>
 <br>
 
-*** Worked locally, then uploaded to GitHub. This is why there are only 7 commits. ***
+*** Worked locally, then uploaded to GitHub. This is why there are only 10 commits. ***
